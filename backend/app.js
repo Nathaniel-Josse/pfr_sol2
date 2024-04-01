@@ -12,7 +12,6 @@ import userRouter from './routers/userRouter.js';
 import filmRouter from './routers/filmRouter.js';
 
 const app = express();
-app.set('view engine', 'ejs');
 
 const path = 'assets/table/film.xlsx';
 
@@ -30,18 +29,7 @@ app.use(cors()); // permet de gérer les requêtes cross-origin. Sans ça, on ne
 app.use('/api/user', userRouter); // à chaque fois qu'on mettra l'URL /api/user, on exécutera le router userRouter. C'est un middleware.
 app.use('/api/film', filmRouter);
 
-// Routes
-app.get('/', async (req, res) => {
-    try{
-        const films = await Film.find();
-        res.render('index', { films: films });
-    }
-    catch(err){
-        console.log("Erreur lors de la récupération des données : " + err);
-        res.status(500).send('Erreur lors de la récupération des données');
-    }
-});
-
+// Fonction d'update de la base de données
 const handleUpdate = async () => {
     let film = await Film.deleteMany(); // on supprime tous les documents de la collection pour update
 
@@ -90,7 +78,7 @@ if (fs.existsSync(path)) {
 }
 
 // MàJ de la base de données
-app.post('/', async (req, res) => {
+app.post('/manual-refresh', async (req, res) => {
     await handleUpdate();
     console.log("MàJ manuelle Done !");
     res.redirect('/');

@@ -1,4 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import mongooseUniqueValidator from 'mongoose-unique-validator';
+
 const filmSchema = new mongoose.Schema({
     id: Number,
     titre: String,
@@ -11,6 +13,6 @@ const filmSchema = new mongoose.Schema({
     synopsis: String,
 });
 
-const Film = mongoose.model('film', filmSchema, "films"); // 3ème paramètre facultatif: nom de la collection qui recevra les objets
+filmSchema.plugin(mongooseUniqueValidator);
 
-module.exports = Film;
+export default mongoose.model("film", filmSchema, "films");

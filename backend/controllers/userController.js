@@ -1,5 +1,7 @@
-import { userModel } from '../models/user.js';
+import userModel from '../models/user.js';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { env } from '../config/index.js';
 
 export const getUsers = async (req, res) => {
     try{
@@ -14,9 +16,13 @@ export const getUsers = async (req, res) => {
 
 export const signup = async (req, res) => {
     try{
-        const user = new userModel(req.body);
-        await user.save();
-        res.status(201).send(user);
+        const passwordHashed = await bcrypt.hash(req.body.password, 10);
+        const data = await req.body;
+        const newUser = await UserModel.create({
+            ...req.body,
+            password: passwordHashed
+        })
+        res.status(201).json({message : "Nouvel utilisateur créé : ", newUser})
     }
     catch(err){
         console.log("Erreur lors de la création de l'utilisateur : " + err);
@@ -30,13 +36,34 @@ export const login = async (req, res) => {
         if (!user) {
             return res.status(404).send('Utilisateur non trouvé');
         }
-        if (!bcrypt.compareSync(req.body.password, user.password)) {
+        if (!bcrypt.compare(req.body.password, user.password)) {
             return res.status(401).send('Mot de passe incorrect');
         }
-        res.status(200).send('Connecté');
+        localStorage.setItem('user', JSON.stringify(user));
+
+        const token = jwt.sign(
+            {id: user._id},
+            env.token,
+            {expiresIn: "24h"}
+        );
+
+        const {password, ...others} = user._doc;
+
+        res.cookie('access_token', token, { httpOnly: true }).status(200).json(others);
     }
     catch(err){
         console.log("Erreur lors de la connexion de l'utilisateur : " + err);
+        res.status(400).send(err);
+    }
+}
+
+export const disconnect = async (req, res) => {
+    try{
+        localStorage.removeItem('user');
+        res.status(200).send('Déconnecté');
+    }
+    catch(err){
+        console.log("Erreur lors de la déconnexion de l'utilisateur : " + err);
         res.status(400).send(err);
     }
 }

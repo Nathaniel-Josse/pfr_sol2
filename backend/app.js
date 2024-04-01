@@ -4,12 +4,12 @@ import express from 'express';
 import ejs from 'ejs';
 import xlsx from 'node-xlsx';
 import fs from 'fs';
-import Film from './models/film';
+import Film from './models/film.js';
 import mongoose from 'mongoose';
 import cors from 'cors';
 
-import userRouter from './routers/userRouter';
-import filmRouter from './routers/filmRouter';
+import userRouter from './routers/userRouter.js';
+import filmRouter from './routers/filmRouter.js';
 
 const app = express();
 app.set('view engine', 'ejs');

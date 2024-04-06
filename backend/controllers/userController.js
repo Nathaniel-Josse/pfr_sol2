@@ -14,13 +14,18 @@ export const getUsers = async (req, res) => {
     }
 };
 
-export const signup = async (req, res) => {
+export const register = async (req, res) => {
     try{
+        console.log(req.body);
         const passwordHashed = await bcrypt.hash(req.body.password, 10);
         const data = await req.body;
-        const newUser = await UserModel.create({
+        const newUser = await userModel.create({
             ...req.body,
-            password: passwordHashed
+            password: passwordHashed,
+            role: 0,
+            favorites: [],
+            seen: [],
+            watchlist: []
         })
         res.status(201).json({message : "Nouvel utilisateur créé : ", newUser})
     }
@@ -39,7 +44,6 @@ export const login = async (req, res) => {
         if (!bcrypt.compare(req.body.password, user.password)) {
             return res.status(401).send('Mot de passe incorrect');
         }
-        localStorage.setItem('user', JSON.stringify(user));
 
         const token = jwt.sign(
             {id: user._id},
@@ -57,7 +61,7 @@ export const login = async (req, res) => {
     }
 }
 
-export const disconnect = async (req, res) => {
+export const logout = async (req, res) => {
     try{
         localStorage.removeItem('user');
         res.status(200).send('Déconnecté');

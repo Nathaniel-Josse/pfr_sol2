@@ -53,21 +53,12 @@ export const login = async (req, res) => {
 
         const {password, ...others} = user._doc;
 
+        console.log("Connexion réussie pour l'utilisateur : " + others.username);
+
         res.cookie('access_token', token, { httpOnly: true }).status(200).json(others);
     }
     catch(err){
         console.log("Erreur lors de la connexion de l'utilisateur : " + err);
         res.status(400).send(err);
     }
-}
-
-export const logout = async (req, res) => {
-    try{
-        localStorage.removeItem('user');
-        res.status(200).send('Déconnecté');
-    }
-    catch(err){
-        console.log("Erreur lors de la déconnexion de l'utilisateur : " + err);
-        res.status(400).send(err);
-    }
-}
+};

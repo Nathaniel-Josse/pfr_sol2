@@ -3,10 +3,11 @@
 import express from 'express';
 import ejs from 'ejs';
 import xlsx from 'node-xlsx';
-import fs from 'fs';
+import fs, { access } from 'fs';
 import Film from './models/film.js';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 import userRouter from './routers/userRouter.js';
 import filmRouter from './routers/filmRouter.js';
@@ -23,7 +24,8 @@ mongoose
 
 // Middleware
 app.use(express.json()); // permet de parser le body des requêtes POST. Sans ça, req.body est undefined dans le controller.
-app.use(cors()); // permet de gérer les requêtes cross-origin. Sans ça, on ne pourrait pas faire de requête depuis le front-end vers le back-end.
+app.use(cors({credentials: true, origin: 'http://localhost:3000'})); // permet de gérer les requêtes cross-origin. Sans ça, on ne pourrait pas faire de requête depuis le front-end vers le back-end.
+app.use(cookieParser()); // permet de parser les cookies. Sans ça, req.cookies est undefined dans le controller.
 
 // Préfixes des routes
 app.use('/api/user', userRouter); // à chaque fois qu'on mettra l'URL /api/user, on exécutera le router userRouter. C'est un middleware.

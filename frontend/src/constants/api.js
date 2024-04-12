@@ -5,5 +5,7 @@ export const URL = {
     USER_LOGOUT: 'http://localhost:2024/api/user/logout',
     USER_REGISTER: 'http://localhost:2024/api/user/register',
     USER_UPDATE_FAVORITES: 'http://localhost:2024/api/user/updateFavorites',
+    USER_UPDATE_SEEN: 'http://localhost:2024/api/user/updateSeen',
+    USER_UPDATE_WATCHLIST: 'http://localhost:2024/api/user/updateWatchList',
     FILM_LIST: 'http://localhost:2024/api/film/getfilms',
 }

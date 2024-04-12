@@ -5,7 +5,6 @@ import * as ACTION from "../redux/movie.js";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { movies } from "../service/selectors/movies_selector.js";
-import Heart from "../assets/heart.svg";
 
 export default function Home() {
 
@@ -85,6 +84,28 @@ export default function Home() {
         return '10px';
     }
 
+    const isWatchListed = (id) => {
+        const user = localStorage.getItem('user');
+        if(user){
+            const userWatchList = JSON.parse(user).watchlist;
+            if(userWatchList.includes(id)){
+                return '#ddd15f';
+            }
+        }
+        return '#fff';
+    }
+
+    const isSeen = (id) => {
+        const user = localStorage.getItem('user');
+        if(user){
+            const userSeen = JSON.parse(user).seen;
+            if(userSeen.includes(id)){
+                return '#ddd15f';
+            }
+        }
+        return '#fff';
+    }
+
     const handleFavorite = async (id) => {
         const user = localStorage.getItem('user');
         if(user){
@@ -97,6 +118,33 @@ export default function Home() {
             }
         }
     }
+
+    const handleWatchList = async (id) => {
+        const user = localStorage.getItem('user');
+        if(user){
+            const response = await axios.post(URL.USER_UPDATE_WATCHLIST, {filmId: id, userId: JSON.parse(user)._id});
+            localStorage.setItem('user', JSON.stringify(response.data));
+            if(lastSort === 'title'){
+                orderFilmsTitle();
+            } else {
+                orderFilmsDate();
+            }
+        }
+    }
+
+    const handleSeen = async (id) => {
+        const user = localStorage.getItem('user');
+        if(user){
+            const response = await axios.post(URL.USER_UPDATE_SEEN, {filmId: id, userId: JSON.parse(user)._id});
+            localStorage.setItem('user', JSON.stringify(response.data));
+            if(lastSort === 'title'){
+                orderFilmsTitle();
+            } else {
+                orderFilmsDate();
+            }
+        }
+    }
+
 
     let storeApp = [];
 
@@ -129,7 +177,7 @@ export default function Home() {
                                 <td>{manageTitleSize(element.titre)}</td>
                                 <td>{element.annee}</td>
                                 <td><button onClick={() => goToFilmDetails(element.id)}>Voir les détails</button></td>
-                                <td>
+                                <td className="flex justify-center align-middle">
                                     <button onClick={() => handleFavorite(element.id)}>
                                         <svg fill={isFavorite(element.id)} height="16px" width="16px" stroke={isFavorite(element.id)} stroke-width={isFavoriteStroke(element.id)}
                                         viewBox="0 0 471.701 471.701">
@@ -144,7 +192,17 @@ export default function Home() {
                                         </g>
                                         </svg>
                                     </button>
-                                    <button>👎</button>
+                                    <button onClick={() => handleWatchList(element.id)}>
+                                        <svg viewBox="0 0 32 40" x="0px" y="0px" width="32px" height="24px" fill={isWatchListed(element.id)}><path d="M23.5,12.5a.5.5,0,0,0-.5.5V26a1,1,0,0,1-.49.86,1,1,0,0,1-1,0l-4.59-2.44a2,2,0,0,0-1.88,0l-4.59,2.44a1,1,0,0,1-1,0A1,1,0,0,1,9,26V10.5A2.5,2.5,0,0,1,11.5,8H18a.5.5,0,0,0,0-1H11.5A3.5,3.5,0,0,0,8,10.5V26a2,2,0,0,0,1,1.71A1.91,1.91,0,0,0,10,28a2,2,0,0,0,.94-.24l4.59-2.44a1,1,0,0,1,.94,0l4.59,2.44A2,2,0,0,0,24,26V13A.5.5,0,0,0,23.5,12.5Z"/><path d="M26.5,7H24V4.5a.5.5,0,0,0-1,0V7H20.5a.5.5,0,0,0,0,1H23v2.5a.5.5,0,0,0,1,0V8h2.5a.5.5,0,0,0,0-1Z"/></svg>                        
+                                    </button>
+                                    <button onClick={() => handleSeen(element.id)}>
+                                        <svg height="16px" width="16px"
+                                        viewBox="0 0 196.887 196.887" fill={isSeen(element.id)}>
+                                        <g>
+                                            <polygon points="191.268,26.967 59.541,158.683 5.615,104.76 0,110.386 59.541,169.92 196.887,32.585 	"/>
+                                        </g>
+                                        </svg>                          
+                                    </button>
                                 </td>
                             </tr>
                         )

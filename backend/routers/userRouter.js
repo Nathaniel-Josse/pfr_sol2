@@ -1,5 +1,5 @@
 import express from 'express';
-import { getUsers, login, register, updateFavorites } from '../controllers/userController.js';
+import { getUsers, login, register, updateFavorites, updateSeen, updateWatchList } from '../controllers/userController.js';
 
 const router = express.Router();
 
@@ -10,5 +10,9 @@ router.post('/register', register);
 router.post('/login', login);
 
 router.post('/updateFavorites', updateFavorites);
+
+router.post('/updateSeen', updateSeen);
+
+router.post('/updateWatchList', updateWatchList);
 
 export default router;

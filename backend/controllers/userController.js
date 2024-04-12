@@ -80,3 +80,39 @@ export const updateFavorites = async (req, res) => {
         res.status(400).send(err);
     }
 }
+export const updateSeen = async (req, res) => {
+    try{
+        const user = await userModel.findById(req.body.userId);
+        if (user.seen.includes(req.body.filmId)) {
+            user.seen = user.seen.filter((id) => id !== req.body.filmId);
+        } else {
+            user.seen.push(req.body.filmId);
+        }
+        await user.save();
+        const {password, ...others} = user._doc;
+        res.status(200).json(others);
+    }
+    catch(err){
+        console.log("Erreur lors de la mise à jour des favoris de l'utilisateur : " + err);
+        res.status(400).send(err);
+    }
+}
+export const updateWatchList = async (req, res) => {
+    try{
+        const user = await userModel.findById(req.body.userId);
+        if (user.watchlist.includes(req.body.filmId)) {
+            user.watchlist = user.watchlist.filter((id) => id !== req.body.filmId);
+        } else {
+            user.watchlist.push(req.body.filmId);
+        }
+        await user.save();
+        const {password, ...others} = user._doc;
+        res.status(200).json(others);
+    }
+    catch(err){
+        console.log("Erreur lors de la mise à jour des favoris de l'utilisateur : " + err);
+        res.status(400).send(err);
+    }
+}
+
+

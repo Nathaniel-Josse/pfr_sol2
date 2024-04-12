@@ -3,7 +3,7 @@
 import express from 'express';
 import ejs from 'ejs';
 import xlsx from 'node-xlsx';
-import fs, { access } from 'fs';
+import fs from 'fs';
 import Film from './models/film.js';
 import mongoose from 'mongoose';
 import cors from 'cors';
@@ -80,7 +80,7 @@ if (fs.existsSync(path)) {
 }
 
 // MàJ de la base de données
-app.post('/manual-refresh', async (req, res) => {
+app.get('/manual-refresh', async (req, res) => {
     await handleUpdate();
     console.log("MàJ manuelle Done !");
     res.redirect('/');

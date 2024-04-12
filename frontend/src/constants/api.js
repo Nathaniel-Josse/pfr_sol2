@@ -4,5 +4,6 @@ export const URL = {
     USER_LOGIN: 'http://localhost:2024/api/user/login',
     USER_LOGOUT: 'http://localhost:2024/api/user/logout',
     USER_REGISTER: 'http://localhost:2024/api/user/register',
+    USER_UPDATE_FAVORITES: 'http://localhost:2024/api/user/updateFavorites',
     FILM_LIST: 'http://localhost:2024/api/film/getfilms',
 }

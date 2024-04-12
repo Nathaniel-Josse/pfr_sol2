@@ -62,3 +62,21 @@ export const login = async (req, res) => {
         res.status(400).send(err);
     }
 };
+
+export const updateFavorites = async (req, res) => {
+    try{
+        const user = await userModel.findById(req.body.userId);
+        if (user.favorites.includes(req.body.filmId)) {
+            user.favorites = user.favorites.filter((id) => id !== req.body.filmId);
+        } else {
+            user.favorites.push(req.body.filmId);
+        }
+        await user.save();
+        const {password, ...others} = user._doc;
+        res.status(200).json(others);
+    }
+    catch(err){
+        console.log("Erreur lors de la mise à jour des favoris de l'utilisateur : " + err);
+        res.status(400).send(err);
+    }
+}

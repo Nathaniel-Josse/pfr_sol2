@@ -16,6 +16,10 @@ export const Movies = createSlice({
         FETCH_START: (draft) => {
             draft.loading = true;
         },
+        FETCH_SUCCESS: (draft, action) => {
+            draft.loading = false;
+            draft.data = action.payload;
+        },
         FETCH_SUCCESS_TITLE: (draft, action) => {
             draft.loading = false;
             draft.data = action.payload.sort((a, b) => {
@@ -64,6 +68,6 @@ export const Movies = createSlice({
 
 })
 
-export const { FETCH_START, FETCH_SUCCESS_TITLE, FETCH_SUCCESS_DATE, FETCH_FAILURE, FETCH_SUCCESS_DETAILS } = Movies.actions;
+export const { FETCH_START, FETCH_SUCCESS, FETCH_SUCCESS_TITLE, FETCH_SUCCESS_DATE, FETCH_FAILURE, FETCH_SUCCESS_DETAILS } = Movies.actions;
 
 export default Movies.reducer;

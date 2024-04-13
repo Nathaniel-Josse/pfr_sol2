@@ -160,7 +160,7 @@ export default function Home() {
 
     return (
         <div className="p-12 bg-black text-white">
-            <h1 className="font-Gill text-center font-bold w-full mb-8 text-2xl">ARCHIVES ALPHABÉTIQUE</h1>
+            <h1 className="font-Gill text-center font-bold w-full mb-8 text-2xl">DÉCOUVREZ NOS ARCHIVES !</h1>
             <table className="w-4/5 text-center font-Gill">
                 <thead>
                     <tr>
@@ -176,7 +176,7 @@ export default function Home() {
                             <tr key={index}>
                                 <td>{manageTitleSize(element.titre)}</td>
                                 <td>{element.annee}</td>
-                                <td><button onClick={() => goToFilmDetails(element.id)}>Voir les détails</button></td>
+                                <td><button onClick={() => goToFilmDetails(element._id)}>Voir les détails</button></td>
                                 <td className="flex justify-center align-middle">
                                     <button onClick={() => handleFavorite(element.id)}>
                                         <svg fill={isFavorite(element.id)} height="16px" width="16px" stroke={isFavorite(element.id)} stroke-width={isFavoriteStroke(element.id)}

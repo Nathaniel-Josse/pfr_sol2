@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import Logo from "../assets/cinemawiki_logo_small.webp";
 
 const Header = () => {
+
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        setUser(user);
+    }, []);
 
     return(
         <>
@@ -14,7 +21,7 @@ const Header = () => {
                 </Link>
                 <nav className="font-Gill">
                     <ul>
-                        <li><Link to='login'>Connexion</Link></li>
+                        <li><Link to='login'>{user ? "Déconnexion" : "Connexion"}</Link></li>
                     </ul>
                 </nav>
             </header>

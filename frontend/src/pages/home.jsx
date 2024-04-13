@@ -171,7 +171,7 @@ export default function Home() {
                     </tr>
                 </thead>
                 <tbody>
-                    { store && store.map((element, index) => {
+                    { store && !store._doc && store.map((element, index) => { // le !store._doc permet de forcer le rechargement des films si on vient d'une page de détail
                         return (
                             <tr key={index}>
                                 <td>{manageTitleSize(element.titre)}</td>

@@ -23,7 +23,7 @@ export default function Home() {
     }
 
     const goToFilmDetails = (id) => {
-        window.location.href = `/filmDetails/${id}`;
+        window.location.href = `/film-details/${id}`;
     }
 
     const manageTitleSize = (title) => {

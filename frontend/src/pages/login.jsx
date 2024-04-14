@@ -56,34 +56,36 @@ export default function Login() {
     return(
         <div>
             { !userLogged.username && (
-                <div>
-                <h1>Connexion</h1>
-                <form action="" method="get">
-                    <label for="username">Nom d'utilisateur : </label>
-                    <input 
-                        type="text"
-                        name="username"
-                        onChange={handleChange}
-                    ></input><br></br>
-                    <label for="email">Email : </label>
-                    <input 
-                        type="email"
-                        name="email"
-                        onChange={handleChange}
-                    ></input><br></br>
-                    <label for="password">Mot de passe : </label>
-                    <input 
-                        type="password" 
-                        placeholder="Votre mot pour passer"
-                        name="password" 
-                        onChange={handleChange}
-                    ></input><br></br>
-                    
-                    <button onClick={handleSubmit}>Valider</button>
-                </form>
+                <div className="font-Gill">
+                    <h1 className="text-center font-bold w-full mb-8 text-2xl">Connexion</h1>
+                    <form action="" method="get">
+                        <label for="username">Nom d'utilisateur : </label>
+                        <input 
+                            type="text"
+                            name="username"
+                            placeholder="Votre nom d'utilisateur"
+                            onChange={handleChange}
+                        ></input><br></br>
+                        <label for="email">Email : </label>
+                        <input 
+                            type="email"
+                            name="email"
+                            placeholder="Votre email"
+                            onChange={handleChange}
+                        ></input><br></br>
+                        <label for="password">Mot de passe : </label>
+                        <input 
+                            type="password" 
+                            placeholder="Votre mot pour passer"
+                            name="password" 
+                            onChange={handleChange}
+                        ></input><br></br>
+                        
+                        <button onClick={handleSubmit}>Valider</button>
+                    </form>
 
-                <p>Pas encore inscrit ?</p>
-                <a href="/register">S'inscrire</a>
+                    <p>Pas encore inscrit ?</p>
+                    <a href="/register">S'inscrire</a>
                 </div>
             )}
             { userLogged.username && (

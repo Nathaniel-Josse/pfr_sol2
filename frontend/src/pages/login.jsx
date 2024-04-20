@@ -54,38 +54,43 @@ export default function Login() {
     }, []);
 
     return(
-        <div>
+        <div className="bg-black text-white p-12 text-center">
             { !userLogged.username && (
                 <div className="font-Gill">
-                    <h1 className="text-center font-bold w-full mb-8 text-2xl">Connexion</h1>
+                    <h1 className="text-center font-bold w-full mb-8 text-2xl">CONNEXION</h1>
                     <form action="" method="get">
-                        <label for="username">Nom d'utilisateur : </label>
+                        <label for="username" className="block text-primary text-sm font-bold">Nom d'utilisateur : </label><br></br>
                         <input 
                             type="text"
                             name="username"
                             placeholder="Votre nom d'utilisateur"
                             onChange={handleChange}
+                            className="shadow appearance-none border rounded w-1/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         ></input><br></br>
-                        <label for="email">Email : </label>
+                        <label for="email" className="block text-primary text-sm font-bold mt-8">Email : </label><br></br>
                         <input 
                             type="email"
                             name="email"
                             placeholder="Votre email"
                             onChange={handleChange}
+                            className="shadow appearance-none border rounded w-1/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         ></input><br></br>
-                        <label for="password">Mot de passe : </label>
+                        <label for="password" className="block text-primary text-sm font-bold mt-8">Mot de passe : </label><br></br>
                         <input 
                             type="password" 
                             placeholder="Votre mot pour passer"
                             name="password" 
                             onChange={handleChange}
+                            className="shadow appearance-none border rounded w-1/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         ></input><br></br>
                         
-                        <button onClick={handleSubmit}>Valider</button>
+                        <button onClick={handleSubmit} className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-8">Valider</button>
                     </form>
 
-                    <p>Pas encore inscrit ?</p>
-                    <a href="/register">S'inscrire</a>
+                    <h3 className="mt-6 text-base font-bold">Pas encore inscrit(e) ?</h3>
+                    <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-4">
+                        <a href="/register">S'inscrire</a>
+                    </button>
                 </div>
             )}
             { userLogged.username && (

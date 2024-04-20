@@ -2,6 +2,7 @@ import userModel from '../models/user.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { env } from '../config/index.js';
+import sanitizehtml from 'sanitize-html';
 
 export const getUsers = async (req, res) => {
     try{
@@ -16,18 +17,21 @@ export const getUsers = async (req, res) => {
 
 export const register = async (req, res) => {
     try{
-        console.log(req.body);
-        const passwordHashed = await bcrypt.hash(req.body.password, 10);
         const data = await req.body;
+        const usernameData = sanitizehtml(data.username);
+        const emailData = sanitizehtml(data.email);
+        const passwordData = sanitizehtml(data.password);
+        const passwordHashed = await bcrypt.hash(passwordData, 10);
         const newUser = await userModel.create({
-            ...req.body,
+            username: usernameData,
+            email: emailData,
             password: passwordHashed,
             role: 0,
             favorites: [],
             seen: [],
             watchlist: []
         })
-        res.status(201).json({message : "Nouvel utilisateur créé : ", newUser})
+        res.status(201).json({message : "Nouvel utilisateur créé !", user: newUser})
     }
     catch(err){
         console.log("Erreur lors de la création de l'utilisateur : " + err);
@@ -37,12 +41,15 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
     try{
-        const user = await userModel.findOne({ username: req.body.username });
+        const data = await req.body;
+        const emailData = sanitizehtml(data.email);
+        const passwordData = sanitizehtml(data.password);
+        const user = await userModel.findOne({ email: emailData });
         if (!user) {
-            return res.status(404).send('Utilisateur non trouvé');
+            return res.status(404).send('Utilisateur ou Mot de passe incorrect');
         }
-        if (!bcrypt.compare(req.body.password, user.password)) {
-            return res.status(401).send('Mot de passe incorrect');
+        if (!bcrypt.compare(passwordData, user.password)) {
+            return res.status(401).send('Utilisateur ou Mot de passe incorrect');
         }
 
         const token = jwt.sign(
@@ -59,7 +66,7 @@ export const login = async (req, res) => {
     }
     catch(err){
         console.log("Erreur lors de la connexion de l'utilisateur : " + err);
-        res.status(400).send(err);
+        res.status(400).send("Erreur lors de la connexion de l'utilisateur");
     }
 };
 
@@ -77,7 +84,7 @@ export const updateFavorites = async (req, res) => {
     }
     catch(err){
         console.log("Erreur lors de la mise à jour des favoris de l'utilisateur : " + err);
-        res.status(400).send(err);
+        res.status(400).send("Erreur lors de la mise à jour des favoris de l'utilisateur");
     }
 }
 export const updateSeen = async (req, res) => {
@@ -93,8 +100,8 @@ export const updateSeen = async (req, res) => {
         res.status(200).json(others);
     }
     catch(err){
-        console.log("Erreur lors de la mise à jour des favoris de l'utilisateur : " + err);
-        res.status(400).send(err);
+        console.log("Erreur lors de la mise à jour des films vus de l'utilisateur : " + err);
+        res.status(400).send("Erreur lors de la mise à jour des films vus de l'utilisateur");
     }
 }
 export const updateWatchList = async (req, res) => {
@@ -110,8 +117,8 @@ export const updateWatchList = async (req, res) => {
         res.status(200).json(others);
     }
     catch(err){
-        console.log("Erreur lors de la mise à jour des favoris de l'utilisateur : " + err);
-        res.status(400).send(err);
+        console.log("Erreur lors de la mise à jour des films à voir de l'utilisateur : " + err);
+        res.status(400).send("Erreur lors de la mise à jour des films à voir de l'utilisateur");
     }
 }
 

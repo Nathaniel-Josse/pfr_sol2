@@ -2,16 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { URL } from "../constants/api";
 import * as ACTION from "../redux/movie.js";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { movies } from "../service/selectors/movies_selector.js";
-import { ToastContainer, toast } from "react-toastify";
 
-export default function Home() {
+export default function Liked() {
 
     const store = useSelector((state) => movies(state)); // On utilise useSelector pour récupérer les données du store
-
-    const [lastSort, setLastSort] = useState('title');
 
     const getFilms = async () => {
         try {
@@ -37,30 +33,16 @@ export default function Home() {
     const dispatch = useDispatch(); 
 
     const displayFilms = async () => {
-        const data = await getFilms();
+        const films = await getFilms();
+        const user = localStorage.getItem('user');
+        const userFavorites = JSON.parse(user).favorites;
+        const userLikedFilms = films.filter(film => userFavorites.includes(film.id));
         dispatch(ACTION.FETCH_START())
         try{
-            dispatch(ACTION.FETCH_SUCCESS_TITLE(data))
+            dispatch(ACTION.FETCH_SUCCESS_TITLE(userLikedFilms))
         }catch(err){
             dispatch(ACTION.FETCH_FAILURE(err.message))
         }
-    }
-
-    const orderFilmsTitle = async () => {
-        displayFilms();
-        setLastSort('title');
-    }
-
-    const orderFilmsDate = async () => {
-        const data = await getFilms();
-        dispatch(ACTION.FETCH_START())
-        try{
-            dispatch(ACTION.FETCH_SUCCESS_DATE(data))
-        }
-        catch(err){
-            dispatch(ACTION.FETCH_FAILURE(err.message))
-        }
-        setLastSort('date');
     }
 
     const isFavorite = (id) => {
@@ -101,11 +83,7 @@ export default function Home() {
         if(user){
             const response = await axios.post(URL.USER_UPDATE_FAVORITES, {filmId: id, userId: JSON.parse(user)._id});
             localStorage.setItem('user', JSON.stringify(response.data));
-            if(lastSort === 'title'){
-                orderFilmsTitle();
-            } else {
-                orderFilmsDate();
-            }
+            displayFilms();
         }
     }
 
@@ -114,11 +92,7 @@ export default function Home() {
         if(user){
             const response = await axios.post(URL.USER_UPDATE_WATCHLIST, {filmId: id, userId: JSON.parse(user)._id});
             localStorage.setItem('user', JSON.stringify(response.data));
-            if(lastSort === 'title'){
-                orderFilmsTitle();
-            } else {
-                orderFilmsDate();
-            }
+            displayFilms();
         }
     }
 
@@ -127,13 +101,10 @@ export default function Home() {
         if(user){
             const response = await axios.post(URL.USER_UPDATE_SEEN, {filmId: id, userId: JSON.parse(user)._id});
             localStorage.setItem('user', JSON.stringify(response.data));
-            if(lastSort === 'title'){
-                orderFilmsTitle();
-            } else {
-                orderFilmsDate();
-            }
+            displayFilms();
         }
     }
+
 
     let storeApp = [];
 
@@ -148,13 +119,13 @@ export default function Home() {
 
 
     return (
-        <div className="p-12 bg-black text-white">
-            <h1 className="font-Gill text-center font-bold w-full mb-8 text-2xl">DÉCOUVREZ NOS ARCHIVES !</h1>
+        <div className="p-12 bg-black text-white min-h-screen">
+            <h1 className="font-Gill text-center font-bold w-full mb-8 text-2xl">LES FILMS QUE VOUS AVEZ AIMÉ</h1>
             <table className="w-4/5 text-center font-Gill">
                 <thead>
                     <tr>
-                        <th onClick={() => orderFilmsTitle()} className="cursor-pointer">Titre</th>
-                        <th onClick={() => orderFilmsDate()} className="cursor-pointer">Année</th>
+                        <th>Titre</th>
+                        <th>Année</th>
                         <th>Détails</th>
                         <th>Vos réactions</th>
                     </tr>
@@ -199,7 +170,6 @@ export default function Home() {
                     )}
                 </tbody>
             </table>
-            <ToastContainer />
 
         </div>
     );

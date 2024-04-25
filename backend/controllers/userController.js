@@ -46,10 +46,10 @@ export const login = async (req, res) => {
         const passwordData = sanitizehtml(data.password);
         const user = await userModel.findOne({ email: emailData });
         if (!user) {
-            return res.status(404).send('Utilisateur ou Mot de passe incorrect');
+            return res.status(404).send('Email ou Mot de passe incorrect');
         }
         if (!bcrypt.compare(passwordData, user.password)) {
-            return res.status(401).send('Utilisateur ou Mot de passe incorrect');
+            return res.status(401).send('Email ou Mot de passe incorrect');
         }
 
         const token = jwt.sign(

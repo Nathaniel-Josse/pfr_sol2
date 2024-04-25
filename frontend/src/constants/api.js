@@ -9,4 +9,5 @@ export const URL = {
     USER_UPDATE_WATCHLIST: 'http://localhost:2024/api/user/updateWatchList',
     FILM_LIST: 'http://localhost:2024/api/film/getfilms',
     FILM_DETAILS: 'http://localhost:2024/api/film/getfilm',
+    FILM_BY_ID: 'http://localhost:2024/api/film/getfilmbyid',
 }

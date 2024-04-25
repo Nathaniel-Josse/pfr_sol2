@@ -13,6 +13,17 @@ export const getFilms = async (req, res) => {
     }
 };
 
+export const getFilmById = async (req, res) => {
+    try{
+        const film = await filmModel.findById(req.body._id);
+        res.status(200).json(film);
+    }
+    catch(err){
+        console.log("Erreur lors de la récupération des données : " + err);
+        res.status(500).send('Erreur lors de la récupération des données');
+    }
+}
+
 export const getFilm = async (req, res) => {
     try{
         const film = await filmModel.findById(req.body.id);

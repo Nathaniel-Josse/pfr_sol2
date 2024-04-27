@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { URL } from '../constants/api';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Register() {
   
@@ -16,8 +18,21 @@ export default function Register() {
         console.log(dataForm);
         try{
             const { data, status } = await axios.post(URL.USER_REGISTER, dataForm);
+            if(status === 201) {
+                toast.success("Vous êtes inscrit(e) ! Il ne reste plus qu'à vous connecter ! ✅", {
+                    position: "top-center",
+                    hideProgressBar: true
+                });
+                setTimeout(() => {
+                    window.location.href = `/login`;
+                } , 2000);
+            }
         } catch(error) {
             console.log(error);
+            toast.error("Erreur lors de l'inscription. Veuillez vérifier vos informations.", {
+                position: "top-center",
+                hideProgressBar: true
+            });
         }
     }
 
@@ -64,6 +79,7 @@ export default function Register() {
                     <a href="/login">Se connecter</a>
                 </button>
             </div>
+            <ToastContainer />
         </div>
     )
 }

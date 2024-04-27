@@ -170,7 +170,6 @@ export default function Liked() {
                     )}
                 </tbody>
             </table>
-
         </div>
     );
 }

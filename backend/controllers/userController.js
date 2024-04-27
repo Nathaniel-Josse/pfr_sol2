@@ -21,6 +21,10 @@ export const register = async (req, res) => {
         const usernameData = sanitizehtml(data.username);
         const emailData = sanitizehtml(data.email);
         const passwordData = sanitizehtml(data.password);
+        const doesUserAlreadyExist = await userModel.findOne({ email: emailData });
+        if (doesUserAlreadyExist) {
+            return res.status(409).send('Cet email est déjà utilisé');
+        }
         const passwordHashed = await bcrypt.hash(passwordData, 10);
         const newUser = await userModel.create({
             username: usernameData,

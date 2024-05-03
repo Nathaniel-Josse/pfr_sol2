@@ -51,17 +51,6 @@ export default function Home() {
         return '#fff';
     }
 
-    const isFavoriteStroke = (id) => {
-        const user = localStorage.getItem('user');
-        if(user){
-            const userFavorite = JSON.parse(user).favorites;
-            if(userFavorite.includes(id)){
-                return '20px';
-            }
-        }
-        return '10px';
-    }
-
     const isWatchListed = (id) => {
         const user = localStorage.getItem('user');
         if(user){
@@ -110,9 +99,6 @@ export default function Home() {
             displayFilm(store._doc._id);
         }
     }
-
-
-    let storeApp = [];
 
     useEffect(() => {
         const user = localStorage.getItem('user');

@@ -10,4 +10,5 @@ export const URL = {
     FILM_LIST: 'http://localhost:2024/api/film/getfilms',
     FILM_DETAILS: 'http://localhost:2024/api/film/getfilm',
     FILM_BY_ID: 'http://localhost:2024/api/film/getfilmbyid',
+    FILM_NEAR_EVENTS: 'http://localhost:2024/api/film/getnearevents',
 }

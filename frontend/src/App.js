@@ -9,6 +9,7 @@ import Mleg from './pages/mleg';
 import Liked from './pages/liked';
 import WatchList from './pages/watchList';
 import Seen from './pages/seen';
+import NearEvents from './pages/nearEvents';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import { ToastContainer } from 'react-toastify';
@@ -26,7 +27,9 @@ function App() {
             <Route path='mleg' element={<Mleg />} />
             <Route path='liked' element={<Liked />} />
             <Route path='watch-list' element={<WatchList />} />
+            <Route path='near-events' element={<NearEvents />} />
             <Route path='seen' element={<Seen />} />
+
             <Route path='*' element={<Home />} />
           </Route>
         </Routes>

@@ -13,10 +13,10 @@ const Header = () => {
 
     return(
         <>
-            <header className="flex justify-between p-4">
+            <header className="flex justify-between p-4 h-">
                 <Link to = 'home'> 
                     <div>
-                        <img src = {Logo} alt='Logo CinemaWiki' className='logo'/>
+                        <img src = {Logo} alt='Logo CinemaWiki'/>
                     </div>
                 </Link>
                 <nav className="font-Gill">
@@ -24,6 +24,7 @@ const Header = () => {
                         <li><Link to='liked'>Films aimés</Link></li>
                         <li><Link to='watch-list'>Films à voir</Link></li>
                         <li><Link to='seen'>Films vus</Link></li>
+                        <li><Link to='near-events'>Suggestions</Link></li>
                         <li><Link to='login'>{user ? "Déconnexion" : "Connexion"}</Link></li>
                     </ul>
                 </nav>

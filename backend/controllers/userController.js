@@ -77,13 +77,17 @@ export const login = async (req, res) => {
 export const updateFavorites = async (req, res) => {
     try{
         const user = await userModel.findById(req.body.userId);
+        let message = "";
         if (user.favorites.includes(req.body.filmId)) {
             user.favorites = user.favorites.filter((id) => id !== req.body.filmId);
+            //message = "Film retiré des favoris";
         } else {
             user.favorites.push(req.body.filmId);
+            //message = "Film ajouté aux favoris";
         }
         await user.save();
         const {password, ...others} = user._doc;
+        //res.status(200).json({message: message, data: others});
         res.status(200).json(others);
     }
     catch(err){

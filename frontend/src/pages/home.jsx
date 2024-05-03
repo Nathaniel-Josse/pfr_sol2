@@ -101,6 +101,13 @@ export default function Home() {
         if(user){
             const response = await axios.post(URL.USER_UPDATE_FAVORITES, {filmId: id, userId: JSON.parse(user)._id});
             localStorage.setItem('user', JSON.stringify(response.data));
+            //localStorage.setItem('user', JSON.stringify(response.data.data));
+            /*
+            toast.success(response.data.message, {
+                position: "top-center",
+                hideProgressBar: true
+            });
+            */
             if(lastSort === 'title'){
                 orderFilmsTitle();
             } else {
@@ -150,11 +157,15 @@ export default function Home() {
     return (
         <div className="p-12 bg-black text-white min-h-screen">
             <h1 className="font-Gill text-center font-bold w-full mb-8 text-2xl">DÉCOUVREZ NOS ARCHIVES !</h1>
+            <div className="flex justify-center mb-8">
+                <button className={lastSort == 'title' ? "bg-primary text-black font-bold py-2 px-4 rounded mr-2 opacity-50 cursor-not-allowed" : "bg-primary text-black font-bold py-2 px-4 rounded mr-2"} onClick={() => orderFilmsTitle()} disabled={lastSort == 'title' ? true : false}>Trier (A-Z)</button>
+                <button className={lastSort == 'date' ? "bg-primary text-black font-bold py-2 px-4 rounded mr-2 opacity-50 cursor-not-allowed" : "bg-primary text-black font-bold py-2 px-4 rounded mr-2"} onClick={() => orderFilmsDate()} disabled={lastSort == 'date' ? true : false}>Trier (Date Croissante)</button>
+            </div>
             <table className="w-4/5 text-center font-Gill">
                 <thead>
                     <tr>
-                        <th onClick={() => orderFilmsTitle()} className="cursor-pointer">Titre</th>
-                        <th onClick={() => orderFilmsDate()} className="cursor-pointer">Année</th>
+                        <th>Titre</th>
+                        <th>Année</th>
                         <th>Détails</th>
                         <th>Vos réactions</th>
                     </tr>

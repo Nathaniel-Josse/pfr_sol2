@@ -20,7 +20,6 @@ export default function Home() {
         try {
             const data = {id: id};
             const response = await axios.post(URL.FILM_DETAILS, data);
-            console.log(response);
             return response.data;
         } catch (error) {
             console.error(error);

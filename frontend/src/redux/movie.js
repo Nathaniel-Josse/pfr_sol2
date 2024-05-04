@@ -58,7 +58,6 @@ export const Movies = createSlice({
             draft.loading = false;
             let id = action.payload[1];
             draft.data = action.payload[0][id];
-            console.log(draft.data);
         },
         FETCH_FAILURE: (draft) => {
             draft.loading = false;

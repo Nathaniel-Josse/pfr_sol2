@@ -41,7 +41,6 @@ export const getFilm = async (req, res) => {
         .then(function (response) {
             const results = response.data.results;
             const completeFilm = results.find((element) => element.release_date.substring(0, 4) == film.annee);
-            console.log(completeFilm);
             const completedFilm = {
                 ...film,
                 ...completeFilm
@@ -63,7 +62,7 @@ export const getNearEvents = async (req, res) => {
     try{
         const lat = req.body.lat;
         const lon = req.body.lon;
-        const response = await axios.get(`https://data.culture.gouv.fr/api/explore/v2.1/catalog/datasets/festivals-global-festivals-_-pl/records?where=%20within_distance(geocodage_xy%2C%20geom'POINT(${lon}%20${lat})'%2C%2030km)&limit=10`)
+        const response = await axios.get(`https://data.culture.gouv.fr/api/explore/v2.1/catalog/datasets/festivals-global-festivals-_-pl/records?where=%20within_distance(geocodage_xy%2C%20geom'POINT(${lon}%20${lat})'%2C%2030km)&limit=9`)
         res.status(200).json(response.data);
     }
     catch(err){

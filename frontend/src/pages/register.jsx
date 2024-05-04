@@ -15,7 +15,6 @@ export default function Register() {
             email: user.email,
             password: user.password
         }
-        console.log(dataForm);
         try{
             const { data, status } = await axios.post(URL.USER_REGISTER, dataForm);
             if(status === 201) {

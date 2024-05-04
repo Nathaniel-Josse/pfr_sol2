@@ -12,7 +12,6 @@ export default function Seen() {
     const getFilms = async () => {
         try {
             const response = await axios.get(URL.FILM_LIST);
-            console.log(response);
             return response.data;
         } catch (error) {
             console.error(error);

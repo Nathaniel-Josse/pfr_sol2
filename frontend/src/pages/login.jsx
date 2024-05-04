@@ -15,14 +15,11 @@ export default function Login() {
             email: user.email,
             password: user.password
         }
-        console.log(dataForm);
         try{
             const { data, status } = await axios.post(URL.USER_LOGIN, dataForm, { withCredentials: true, allowCredentials: true });
             if(status === 200) {
-                console.log("data received : ", data);
                 setUser(data);
                 setUserLogged(data);
-                console.log(data)
                 await localStorage.setItem('user', JSON.stringify(data));
                 toast.success("Vous êtes connecté(e) ! 👏", {
                     position: "top-center",

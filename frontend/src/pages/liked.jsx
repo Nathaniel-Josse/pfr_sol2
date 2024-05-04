@@ -9,6 +9,8 @@ export default function Liked() {
 
     const store = useSelector((state) => movies(state)); // On utilise useSelector pour récupérer les données du store
 
+    const [isLoading, setIsLoading] = useState(true);
+
     const getFilms = async () => {
         try {
             const response = await axios.get(URL.FILM_LIST);
@@ -39,6 +41,7 @@ export default function Liked() {
         dispatch(ACTION.FETCH_START())
         try{
             dispatch(ACTION.FETCH_SUCCESS_TITLE(userLikedFilms))
+            setIsLoading(false);
         }catch(err){
             dispatch(ACTION.FETCH_FAILURE(err.message))
         }
@@ -130,7 +133,7 @@ export default function Liked() {
                     </tr>
                 </thead>
                 <tbody>
-                    { store && !store._doc && store.map((element, index) => { // le !store._doc permet de forcer le rechargement des films si on vient d'une page de détail
+                    { store && !store._doc && !isLoading && store.map((element, index) => { // le !store._doc permet de forcer le rechargement des films si on vient d'une page de détail
                         return (
                             <tr key={index}>
                                 <td>{manageTitleSize(element.titre)}</td>

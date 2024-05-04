@@ -24,6 +24,8 @@ export default function NearEvents() {
 
     const [position, setPosition] = useState([]);
 
+    const [isLoading, setIsLoading] = useState(true);
+
     const getNearEvents = async () => {
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition(async (position) => {
@@ -53,6 +55,7 @@ export default function NearEvents() {
         dispatch(ACTION.FETCH_START())
         try{
             dispatch(ACTION.FETCH_SUCCESS(nearEvents))
+            setIsLoading(false);
         }catch(err){
             dispatch(ACTION.FETCH_FAILURE(err.message))
         }
@@ -73,7 +76,7 @@ export default function NearEvents() {
             <h1 className="text-3xl font-bold text-center">Événements à proximité</h1>
             <h2 className="text-center text-2xl font-bold mt-8">Prenez part à la culture du cinéma et de l'art près de chez vous !</h2>
 
-        { store ? (
+        { store && !store._doc && !isLoading ? (
             <MapContainer center={[position[0], position[1]]} zoom={13} scrollWheelZoom={false} className="h-60 w-30 mt-4">
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -85,7 +88,7 @@ export default function NearEvents() {
                     </Popup>
                 </Marker>
                 {store.map((event, index) => (
-                    <Marker position={[event.geocodage_xy.lat, event.geocodage_xy.lon]}>
+                    <Marker position={[event.geocodage_xy?.lat, event.geocodage_xy?.lon]}>
                         <Popup>
                             {event.nom_du_festival}
                         </Popup>
@@ -93,11 +96,11 @@ export default function NearEvents() {
                 ))}
                 
             </MapContainer>
-        ) : <p>Chargement des événements...</p>}
+        ) : <p className="mt-4">Chargement des événements...</p>}
     
             <h2 className="text-center text-base font-bold mt-8">Pour vous renseigner sur ces événements, cliquez sur les cases ci-dessous pour découvrir leur site</h2>
             <div className="flex flex-wrap justify-center mt-4">
-                { store ? store.map((event, index) => (
+                { store && !store._doc && !isLoading ? store.map((event, index) => (
                     <div key={index} className="bg-primary text-black m-4 p-4 rounded-lg w-1/4 flex items-center justify-center">
                         <a href={event.site_internet_du_festival} target="_blank" rel="noreferrer">
                             <h2 className="text-2xl font-bold text-center">{event.nom_du_festival}</h2>

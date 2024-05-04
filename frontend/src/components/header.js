@@ -13,14 +13,14 @@ const Header = () => {
 
     return(
         <>
-            <header className="flex justify-between p-4 h-">
+            <header className="flex justify-between p-4">
                 <Link to = 'home'> 
                     <div>
                         <img src = {Logo} alt='Logo CinemaWiki'/>
                     </div>
                 </Link>
                 <nav className="font-Gill">
-                    <ul>
+                    <ul className="flex items-center">
                         <li><Link to='liked'>Films aimés</Link></li>
                         <li><Link to='watch-list'>Films à voir</Link></li>
                         <li><Link to='seen'>Films vus</Link></li>

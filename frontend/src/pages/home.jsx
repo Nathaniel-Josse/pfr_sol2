@@ -156,7 +156,7 @@ export default function Home() {
         <div className="p-12 bg-black text-white min-h-screen flex flex-col items-center">
             <h1 className="font-Gill text-center font-bold w-full mb-8 text-2xl">DÉCOUVREZ NOS ARCHIVES !</h1>
             <p className="text-base mb-8">Archives fournies par la Cinémathèque Française.</p>
-            <p className="text-xs mb-8"><i>Nombre de films recensés : {store && !store._doc && !store[0].nom_du_festival ?store.length : ''}</i></p>
+            <p className="text-xs mb-8"><i>Nombre de films recensés : {store && !store._doc && (store.nom_du_festival == undefined || !store[0].nom_du_festival) ? store.length : ''}</i></p>
             <div className="flex justify-center mb-8">
                 <button className={lastSort == 'title' ? "bg-primary text-black font-bold py-2 px-4 rounded mr-2 opacity-50 cursor-not-allowed" : "bg-primary text-black font-bold py-2 px-4 rounded mr-2"} onClick={() => orderFilmsTitle()} disabled={lastSort == 'title' ? true : false}>Trier (A-Z)</button>
                 <button className={lastSort == 'date' ? "bg-primary text-black font-bold py-2 px-4 rounded mr-2 opacity-50 cursor-not-allowed" : "bg-primary text-black font-bold py-2 px-4 rounded mr-2"} onClick={() => orderFilmsDate()} disabled={lastSort == 'date' ? true : false}>Trier (Date Croissante)</button>
@@ -171,7 +171,7 @@ export default function Home() {
                     </tr>
                 </thead>
                 <tbody>
-                    { store && !store._doc && !store[0].nom_du_festival && store.map((element, index) => { // le !store._doc permet de forcer le rechargement des films si on vient d'une page de détail
+                    { store && !store._doc && (store.nom_du_festival == undefined || !store[0].nom_du_festival) && store.map((element, index) => { // le !store._doc permet de forcer le rechargement des films si on vient d'une page de détail
                         return (
                             <tr key={index}>
                                 <td className="pl-40 text-justify">{manageTitleSize(element.titre)}</td>

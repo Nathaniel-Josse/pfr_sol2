@@ -162,7 +162,7 @@ export default function Seen() {
                     )}
                 </tbody>
             </table>
-            {store[0] == null && <p className="mt-8">Oh ! Vous n'avez pas encore de films dans votre liste de films vus.</p>}
+            {store && store[0] == null ? <p className="mt-8">Oh ! Vous n'avez pas encore de films dans votre liste de films vus.</p> : []}
 
         </div>
     );
